@@ -81,9 +81,9 @@
 }
   
 
-.Meat {
+.Patty {
     width: 80%;
-    height: 8%;
+    height: 10%;
     background: linear-gradient(#7f3608, #702e05);
     margin: 2% auto;
     border-radius: 15px;
@@ -99,7 +99,7 @@
 
 .Salad {
     width: 85%;
-    height: 7%;
+    height: 6%;
     margin: 2% auto;
     background: linear-gradient(#228c1d, #91ce50);
     border-radius: 20px;

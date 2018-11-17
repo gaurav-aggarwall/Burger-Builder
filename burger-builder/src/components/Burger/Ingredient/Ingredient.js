@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './ingredient.css'
+import './Ingredient.css'
 
 class Ingredient extends Component{
     render(){
@@ -29,8 +29,8 @@ class Ingredient extends Component{
             ingredients = <div className="Cheese"></div>;
             break;
 
-        case('meat'):
-            ingredients = <div className="Meat"></div>;
+        case('patty'):
+            ingredients = <div className="Patty"></div>;
             break;
             
         case('bacon'):
@@ -38,12 +38,15 @@ class Ingredient extends Component{
             break;
         }
 
+        // default:
+        //     ingredients = null;
+
     return ingredients;
     }
 }
 
 Ingredient.PropTypes={
-    type: PropTypes.string.isRequired;
+    type: PropTypes.string.isRequired
 }
 
 export default Ingredient;
