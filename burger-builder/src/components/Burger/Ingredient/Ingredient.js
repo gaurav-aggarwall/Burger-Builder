@@ -33,14 +33,11 @@ class Ingredient extends Component{
             ingredients = <div className="Patty"></div>;
             break;
             
-        case('bacon'):
-            ingredients = <div className="Bacon"></div>;
+        case('tomato'):
+            ingredients = <div className="Tomato"></div>;
             break;
         }
-
-        // default:
-        //     ingredients = null;
-
+        
     return ingredients;
     }
 }

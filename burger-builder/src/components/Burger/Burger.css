@@ -1,19 +1,11 @@
 .Burger{
-    width: 100%;
+    width: 80%;
     height: 250px;
     margin: auto;
-    /* overflow: scroll; */
     overflow: hidden;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;
-}
-
-@media (min-width: 500px) and (min-height: 401px){
-    .Burger{
-        height: 400px;
-        width: 450px;
-    }
 }
 
 /* Portrait Mode */
@@ -21,6 +13,13 @@
     .Burger{
         height: 300px;
         width: 350px;
+    }
+}
+
+@media (min-width: 500px) and (min-height: 401px){
+    .Burger{
+        height: 400px;
+        width: 500px;
     }
 }
 
