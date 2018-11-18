@@ -18,6 +18,7 @@ const Controls = props => (
                 label = {ctrl.label}
                 added = {() => props.ingAdder(ctrl.type)}
                 deleted = {() => props.ingDeleter(ctrl.type)}
+                disabled = {props.disable[ctrl.type]}
             />
         ))};
     </div>
