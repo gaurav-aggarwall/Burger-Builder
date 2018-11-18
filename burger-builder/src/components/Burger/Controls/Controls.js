@@ -13,7 +13,12 @@ const controlsArray = [
 const Controls = props => (
     <div className='Controls'>
         {controlsArray.map(ctrl => (
-            <BuildControl key={ctrl.label} label={ctrl.label}/>
+            <BuildControl 
+                key = {ctrl.label} 
+                label = {ctrl.label}
+                added = {() => props.ingAdder(ctrl.type)}
+                deleted = {() => props.ingDeleter(ctrl.type)}
+            />
         ))};
     </div>
 );

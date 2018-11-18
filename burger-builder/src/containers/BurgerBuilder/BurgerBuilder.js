@@ -3,27 +3,63 @@ import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import HOC from '../../hocomponents/HOC';
 
+const INGREDIENTS_PRICES = {
+    salad: 0.5,
+    tomato: 0.9,
+    patty: 1.5,
+    cheese: 1
+}
+
 class BurgerBuilder extends Component{
     constructor(props){
         super(props);
         
         this.state={
             ingredients: {
-                salad: 1,
-                tomato: 1,
-                patty: 1,
-                cheese: 1,
-            }
+                salad: 0,
+                tomato: 0,
+                patty: 0,
+                cheese: 0
+            },
+            totalPrice: 4
         }
+
+        this.addIngredient = this.addIngredient.bind(this);
+        this.delIngredient = this.delIngredient.bind(this);
     }
+
+    addIngredient(type){
+        const oldCount = this.state.ingredients[type];
+        const newCount = oldCount + 1;
+        const ing = {
+            ...this.state.ingredients
+        };
+        ing[type]=newCount;
+
+        const oldPrice = this.state.ingredients[type];
+        const newPrice = oldPrice + INGREDIENTS_PRICES[type];
+
+        this.setState({
+            ingredients: ing,
+            totalPrice: newPrice
+        });
+    };
+
+    delIngredient(type){
+        
+    };
+
     render(){
         return(
             <HOC>
-                <Burger ingredients={this.state.ingredients} /> 
-                <Controls />
+                <Burger ingredients = {this.state.ingredients} /> 
+                <Controls 
+                    ingAdder = {this.addIngredient} 
+                    ingDeleter = {this.delIngredient}
+                />
             </HOC>
         );
-    }
+    };
 }
 
 export default BurgerBuilder;
