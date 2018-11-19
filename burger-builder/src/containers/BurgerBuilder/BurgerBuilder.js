@@ -21,7 +21,8 @@ class BurgerBuilder extends Component{
                 patty: 0,
                 cheese: 0
             },
-            totalPrice: 4
+            totalPrice: 4,
+            purchaseable: false
         }
 
         this.addIngredient = this.addIngredient.bind(this);
@@ -41,7 +42,8 @@ class BurgerBuilder extends Component{
 
         this.setState({
             ingredients: ing,
-            totalPrice: newPrice
+            totalPrice: newPrice,
+            purchaseable: true
         });
     };
 
@@ -58,20 +60,24 @@ class BurgerBuilder extends Component{
 
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice - INGREDIENTS_PRICES[type];
+        const purchaseable = newPrice > 4;   
 
         this.setState({
             ingredients: ing,
-            totalPrice: newPrice
+            totalPrice: newPrice,
+            purchaseable: purchaseable
         });
     };
 
     render(){
         const disabledInfo ={
             ...this.state.ingredients
-        }
+        };
+
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key]<=0
         }
+        
         return(
             <HOC>
                 <Burger ingredients = {this.state.ingredients} /> 
@@ -79,6 +85,8 @@ class BurgerBuilder extends Component{
                     ingAdder = {this.addIngredient} 
                     ingDeleter = {this.delIngredient}
                     disable = {disabledInfo}
+                    price = {this.state.totalPrice}
+                    purchaseable = {this.state.purchaseable}
                 />
             </HOC>
         );
