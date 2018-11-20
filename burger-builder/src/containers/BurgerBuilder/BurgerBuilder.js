@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import HOC from '../../hocomponents/HOC';
+import OrderSummary from '../../components/Burger/Order Summary/OrderSummary';
+import Modal from '../../components/UI/Modal/Modal';
 
 const INGREDIENTS_PRICES = {
     salad: 0.5,
@@ -22,11 +24,13 @@ class BurgerBuilder extends Component{
                 cheese: 0
             },
             totalPrice: 4,
-            purchaseable: false
+            purchaseable: false,
+            ordering: false
         }
 
         this.addIngredient = this.addIngredient.bind(this);
         this.delIngredient = this.delIngredient.bind(this);
+        this.ordering = this.ordering.bind(this);
     }
 
     addIngredient(type){
@@ -69,6 +73,14 @@ class BurgerBuilder extends Component{
         });
     };
 
+    ordering(){
+        this.setState({ordering: true});
+    }
+
+    Cancelhandler(){
+        this.setState({ordering: false})
+    }
+
     render(){
         const disabledInfo ={
             ...this.state.ingredients
@@ -80,6 +92,9 @@ class BurgerBuilder extends Component{
         
         return(
             <HOC>
+                <Modal show={this.state.ordering} modalClosed={this.Cancelhandler.bind(this)}>
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>>
                 <Burger ingredients = {this.state.ingredients} /> 
                 <Controls 
                     ingAdder = {this.addIngredient} 
@@ -87,6 +102,7 @@ class BurgerBuilder extends Component{
                     disable = {disabledInfo}
                     price = {this.state.totalPrice}
                     purchaseable = {this.state.purchaseable}
+                    Ordering = {this.ordering}
                 />
             </HOC>
         );

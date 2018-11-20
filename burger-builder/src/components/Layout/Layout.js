@@ -1,7 +1,6 @@
 import React from 'react';
 import HOC from '../../hocomponents/HOC';
 
-
 import './Layout.css';
 
 const layout = ( props ) => (

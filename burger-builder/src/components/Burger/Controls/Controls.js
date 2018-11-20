@@ -24,6 +24,7 @@ const Controls = props => (
         ))};
         <button 
             className = 'OrderNow'
+            onClick = {props.Ordering}
             disabled = {!props.purchaseable}>ORDER NOW</button>
     </div>
 );
