@@ -7,9 +7,9 @@ import Modal from '../../components/UI/Modal/Modal';
 
 const INGREDIENTS_PRICES = {
     salad: 0.5,
-    tomato: 0.9,
+    tomato: 0.7,
     patty: 1.5,
-    cheese: 1
+    cheese: 1.1
 }
 
 class BurgerBuilder extends Component{
@@ -31,6 +31,8 @@ class BurgerBuilder extends Component{
         this.addIngredient = this.addIngredient.bind(this);
         this.delIngredient = this.delIngredient.bind(this);
         this.ordering = this.ordering.bind(this);
+        this.ContinueHandler = this.ContinueHandler.bind(this);
+        this.Cancelhandler = this.Cancelhandler.bind(this);
     }
 
     addIngredient(type){
@@ -81,6 +83,10 @@ class BurgerBuilder extends Component{
         this.setState({ordering: false})
     }
 
+    ContinueHandler(){
+        alert("Yayyy");
+    }
+
     render(){
         const disabledInfo ={
             ...this.state.ingredients
@@ -92,9 +98,14 @@ class BurgerBuilder extends Component{
         
         return(
             <HOC>
-                <Modal show={this.state.ordering} modalClosed={this.Cancelhandler.bind(this)}>
-                    <OrderSummary ingredients={this.state.ingredients}/>
-                </Modal>>
+                <Modal show={this.state.ordering} modalClosed={this.Cancelhandler}>
+                    <OrderSummary 
+                        ingredients={this.state.ingredients}
+                        purchaseCanceled={this.Cancelhandler}
+                        purchaseCont={this.ContinueHandler}
+                        totalPrice={this.state.totalPrice}
+                    />
+                </Modal>
                 <Burger ingredients = {this.state.ingredients} /> 
                 <Controls 
                     ingAdder = {this.addIngredient} 
