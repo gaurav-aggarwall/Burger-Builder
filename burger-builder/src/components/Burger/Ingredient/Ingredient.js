@@ -36,6 +36,9 @@ class Ingredient extends Component{
         case('tomato'):
             ingredients = <div className="Tomato"></div>;
             break;
+        
+        default:
+            break;    
         }
         
     return ingredients;

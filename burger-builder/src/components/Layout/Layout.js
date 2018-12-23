@@ -1,11 +1,12 @@
 import React from 'react';
 import HOC from '../../hocomponents/HOC';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 import './Layout.css';
 
 const layout = ( props ) => (
     <HOC>
-        <div>Toolkit, Sidebar, Backdrop</div>
+        <Toolbar />
         <main className="Content">
             {props.children}
         </main>
