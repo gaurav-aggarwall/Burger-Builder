@@ -4,6 +4,8 @@ import Controls from '../../components/Burger/Controls/Controls';
 import HOC from '../../hocomponents/HOC';
 import OrderSummary from '../../components/Burger/Order Summary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
+import axios from '../../axios';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENTS_PRICES = {
     salad: 0.5,
@@ -25,7 +27,8 @@ class BurgerBuilder extends Component{
             },
             totalPrice: 4,
             purchaseable: false,
-            ordering: false
+            ordering: false, 
+            loading: false
         }
 
         this.addIngredient = this.addIngredient.bind(this);
@@ -84,7 +87,35 @@ class BurgerBuilder extends Component{
     }
 
     ContinueHandler(){
-        alert("Yayyy");
+        this.setState({loading: true});
+
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer:{
+                name: 'Test',
+                address: {
+                    street: 'ABC',
+                    city: 'XYZ',
+                    zip: 'JKL'
+                },
+            email: 'test@test.com'    
+            }
+        }
+
+        axios.post('/orders.json', order)
+        .then(res =>{
+            this.setState({
+                loading: false,
+                purchaseable: false
+            })
+        })
+        .catch(res =>{
+            this.setState({
+                loading: false,
+                purchaseable: false
+            })
+        });
     }
 
     render(){
@@ -95,16 +126,25 @@ class BurgerBuilder extends Component{
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key]<=0
         }
+
+        let orderSpace;
+
+        if(this.state.loading){
+            orderSpace = <Spinner />;
+        }
+        else{
+            orderSpace = <OrderSummary 
+                            ingredients={this.state.ingredients}
+                            purchaseCanceled={this.Cancelhandler}
+                            purchaseCont={this.ContinueHandler}
+                            totalPrice={this.state.totalPrice}
+                        />;
+        }
         
         return(
             <HOC>
                 <Modal show={this.state.ordering} modalClosed={this.Cancelhandler}>
-                    <OrderSummary 
-                        ingredients={this.state.ingredients}
-                        purchaseCanceled={this.Cancelhandler}
-                        purchaseCont={this.ContinueHandler}
-                        totalPrice={this.state.totalPrice}
-                    />
+                    {orderSpace}
                 </Modal>
                 <Burger ingredients = {this.state.ingredients} /> 
                 <Controls 
