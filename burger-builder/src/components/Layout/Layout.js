@@ -7,7 +7,7 @@ import './Layout.css';
 
 class Layout extends Component{
     state = {
-        SideDrawerShow: true
+        SideDrawerShow: false
     }
 
     SideDrawerClose = () => {
