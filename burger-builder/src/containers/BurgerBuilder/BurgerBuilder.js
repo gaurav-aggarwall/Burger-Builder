@@ -88,34 +88,43 @@ class BurgerBuilder extends Component{
     }
 
     ContinueHandler(){
-        this.setState({loading: true});
+        // this.setState({loading: true});
 
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer:{
-                name: 'Test',
-                address: {
-                    street: 'ABC',
-                    city: 'XYZ',
-                    zip: 'JKL'
-                },
-            email: 'test@test.com'    
-            }
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer:{
+        //         name: 'Test',
+        //         address: {
+        //             street: 'ABC',
+        //             city: 'XYZ',
+        //             zip: 'JKL'
+        //         },
+        //     email: 'test@test.com'    
+        //     }
+        // }
+
+        // axios.post('/orders.json', order)
+        // .then(res =>{
+        //     this.setState({
+        //         loading: false,
+        //         purchaseable: false
+        //     })
+        // })
+        // .catch(res =>{
+        //     this.setState({
+        //         loading: false,
+        //         purchaseable: false
+        //     })
+        // });
+        const queryParams = [];
+        for(let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-
-        axios.post('/orders.json', order)
-        .then(res =>{
-            this.setState({
-                loading: false,
-                purchaseable: false
-            })
-        })
-        .catch(res =>{
-            this.setState({
-                loading: false,
-                purchaseable: false
-            })
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
         });
     }
 
