@@ -3,25 +3,21 @@ import './Input.css';
 
 const Input = props =>{
     let inputElement = null;
+    const inputClasses = ['InputElement'];
+    
+    if(! props.valid && props.edited){
+        inputClasses.push('Invalid');
+    }
 
     switch(props.elemType){
         case ('input'):
-            inputElement = <input className='InputElement' {...props.elemConfig} value={props.value} onChange={props.changed}/>;
+            inputElement = <input className={inputClasses.join(' ')} {...props.elemConfig} value={props.value} onChange={props.changed}/>;
             break;
         case ('textarea'):
-            inputElement = <textarea className='InputElement' {...props.elemConfig} value={props.value} onChange={props.changed}/>;
-            break;
-        case ('select'):
-            inputElement = (
-                <select className='InputElement' value={props.value} onChange={props.changed}>
-                    {props.elemConfig.options.map( option =>(
-                        <option key={option.value} value={option.value}>{option.display}</option>
-                    ))}
-                </select>
-            );    
+            inputElement = <textarea className={inputClasses.join(' ')} {...props.elemConfig} value={props.value} onChange={props.changed}/>;
             break;
         default:
-            inputElement = <input className='InputElement' {...props.elemConfig} value={props.value} onChange={props.changed}/>;  
+            inputElement = <input className={inputClasses.join(' ')} {...props.elemConfig} value={props.value} onChange={props.changed}/>;  
     }
 
     return(

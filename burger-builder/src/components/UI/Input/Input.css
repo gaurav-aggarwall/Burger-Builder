@@ -25,3 +25,12 @@
     outline: none;
     background-color: #ccc;
 }
+
+.Invalid{
+    border: 1px solid red;
+    background-color: rgb(255, 156, 145);
+}
+
+.Invalid::placeholder{
+    color: rgb(88, 85, 78);
+}
