@@ -8,6 +8,14 @@ const initialState = {
         cheese: 0
     },
     totalPrice: 4,
+    purchaseable: false,
+};
+
+const INGREDIENTS_PRICES = {
+    salad: 0.5,
+    tomato: 0.7,
+    patty: 1.5,
+    cheese: 1.1
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,16 +26,23 @@ const reducer = (state = initialState, action) => {
                 ingredients: {
                     ...state.ingredients,
                     [action.ingredientType]: state.ingredients[action.ingredientType] + 1
-                }
+                },
+                totalPrice: state.totalPrice + INGREDIENTS_PRICES[action.ingredientType],
+                purchaseable: true
             };
 
         case actionTypes.DEL_INGREDIENT:
+            let purchase = false;
+            if(state.totalPrice - INGREDIENTS_PRICES[action.ingredientType] > 4)
+                purchase = true;
             return {
                 ...state,
                 ingredients: {
                     ...state.ingredients,
                     [action.ingredientType]: state.ingredients[action.ingredientType] - 1
-                }
+                },
+                totalPrice: state.totalPrice - INGREDIENTS_PRICES[action.ingredientType],
+                purchaseable: purchase
         };    
 
         default:
