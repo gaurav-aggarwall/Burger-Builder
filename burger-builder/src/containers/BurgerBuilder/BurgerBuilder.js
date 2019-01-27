@@ -7,14 +7,12 @@ import HOC from '../../hocomponents/HOC';
 import OrderSummary from '../../components/Burger/Order Summary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import axios from '../../axios';
-import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorHandler from '../../hocomponents/ErrorHandler/ErrorHandler';
-import * as actionTypes from '../../store/action';
+import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component{
     state={
         ordering: false, 
-        loading: false
     } 
 
     ordering = () => {
@@ -38,19 +36,13 @@ class BurgerBuilder extends Component{
             disabledInfo[key] = disabledInfo[key]<=0
         }
 
-        let orderSpace;
-
-        if(this.state.loading){
-            orderSpace = <Spinner />;
-        }
-        else{
-            orderSpace = <OrderSummary 
+        let orderSpace = <OrderSummary 
                             ingredients={this.props.ings}
                             purchaseCanceled={this.Cancelhandler}
                             purchaseCont={this.ContinueHandler}
                             totalPrice={this.props.price}
                         />;
-        }
+        
         
         return(
             <HOC>
@@ -81,8 +73,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        ingredientAdded: (ingType) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientType: ingType}),
-        ingredientDeleted: (ingType) => dispatch({type: actionTypes.DEL_INGREDIENT, ingredientType: ingType})
+        ingredientAdded: (ingType) => dispatch(burgerBuilderActions.addIngredient(ingType)),
+        ingredientDeleted: (ingType) => dispatch(burgerBuilderActions.delIngredient(ingType))
     }
 };
 
