@@ -25,7 +25,7 @@ const Controls = props => (
         <button 
             className = 'OrderNow'
             onClick = {props.Ordering}
-            disabled = {!props.purchaseable}>ORDER NOW</button>
+            disabled = {!props.purchaseable}>{props.isAuth ? 'ORDER NOW' : 'LOGIN TO ORDER'}</button>
     </div>
 );
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -67,6 +68,7 @@ class Contact extends Component{
             }
         },
         formValid: false,
+        redirect: null
     };
 
     checkValidity = (value, rules) => {
@@ -97,9 +99,11 @@ class Contact extends Component{
         const order = {
             ingredients: this.props.ings,
             price: this.props.price,
-            orderData: formData
+            orderData: formData,
+            userId: this.props.userId
         }
-        this.props.onOrder(order);
+        this.props.onOrder(order, this.props.token);
+        this.setState({redirect: <Redirect to='/'/> });
     }
 
     inputChangeHandler = (event, identifier) => {
@@ -152,6 +156,7 @@ class Contact extends Component{
             <div className='Contact'>
                 <h4>Enter your Contact Details:</h4>
                 {form}
+                {this.state.redirect}
             </div>
         );
     }
@@ -161,13 +166,15 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.orders.loading
+        loading: state.orders.loading,
+        token: state.auth.token,
+        userId : state.auth.userId
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        onOrder: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrder: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 }
 

@@ -33,7 +33,9 @@ export const auth = (email, pass) =>{
         };
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBGbKcPzL7t2oIoeumdb5QIrHOo9VwArSo', authDataObj)
         .then( res => {
-            console.log(res);
+            localStorage.setItem('token', res.data.idToken);
+            localStorage.setItem('userId', res.data.localId);
+            localStorage.setItem('expDate', new Date(new Date().getTime() + res.data.expiresIn * 1000));
             dispatch(authSuccess(res.data.idToken, res.data.localId));
         })
         .catch(err => {
@@ -53,7 +55,9 @@ export const login = (email, pass) =>{
         };
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBGbKcPzL7t2oIoeumdb5QIrHOo9VwArSo', authDataObj)
         .then( res => {
-            console.log(res);
+            localStorage.setItem('token', res.data.idToken);
+            localStorage.setItem('userId', res.data.localId);
+            localStorage.setItem('expDate', new Date(new Date().getTime() + res.data.expiresIn * 1000));
             dispatch(authSuccess(res.data.idToken, res.data.localId));
             dispatch(checkExpiryTime(res.data.expiresIn));
         })
@@ -67,12 +71,36 @@ export const checkExpiryTime = expTime => {
     return dispatch => {
         setTimeout( () => {
             dispatch(logout());
-        }, expTime * 100);   
+        }, expTime * 1000);   
     }
 }
 
 export const logout = () =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('expDate');
+    localStorage.removeItem('userId');
     return{
         type: actionTypes.AUTH_LOGOUT
     };
 };
+
+export const authCheckState = () =>{
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        const expDate = new Date(localStorage.getItem('expDate'));
+
+        if(token){
+            if(expDate > new Date()){
+                dispatch(authSuccess(token, userId));
+                dispatch(checkExpiryTime((expDate.getTime() - new Date().getTime())/1000));
+            }
+            else{
+                dispatch(logout());
+            }
+        } else {
+            dispatch(logout());
+        }
+    };
+}    
+

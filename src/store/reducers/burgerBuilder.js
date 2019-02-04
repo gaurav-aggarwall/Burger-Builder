@@ -9,6 +9,7 @@ const initialState = {
     },
     totalPrice: 4,
     purchaseable: false,
+    building: false
 };
 
 const INGREDIENTS_PRICES = {
@@ -28,7 +29,8 @@ const reducer = (state = initialState, action) => {
                     [action.ingredientType]: state.ingredients[action.ingredientType] + 1
                 },
                 totalPrice: state.totalPrice + INGREDIENTS_PRICES[action.ingredientType],
-                purchaseable: true
+                purchaseable: true,
+                building: true
             };
 
         case actionTypes.DEL_INGREDIENT:
@@ -42,7 +44,8 @@ const reducer = (state = initialState, action) => {
                     [action.ingredientType]: state.ingredients[action.ingredientType] - 1
                 },
                 totalPrice: state.totalPrice - INGREDIENTS_PRICES[action.ingredientType],
-                purchaseable: purchase
+                purchaseable: purchase,
+                building: true
         };    
 
         default:

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
- 
+import { Redirect } from 'react-router-dom';
+  
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import * as actions from '../../store/actions/index';
@@ -111,6 +112,13 @@ class Login extends Component{
         let errorMsg = null;
         if(this.props.error)
             errorMsg = <p className='Error'>{this.props.error.message}</p>;
+        
+        let redirect = null;    
+        if(this.props.isAuth){
+            redirect = <Redirect to='/' />    
+            if(this.props.build)
+                redirect = <Redirect to='/checkout' /> 
+        }   
 
         return(
             <div className='AuthForm'>
@@ -119,6 +127,7 @@ class Login extends Component{
                     {form}
                     <Button btnType='Success'>SUBMIT</Button>
                 </form>
+                {redirect}
             </div>
         );
     }
@@ -127,7 +136,9 @@ class Login extends Component{
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: state.auth.token!=null,
+        build: state.burgerBuilder.building
     }
 };
 
